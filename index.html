@@ -157,6 +157,33 @@ section.block{padding:clamp(64px,11vw,150px) var(--gutter)}
 .row.today span:first-child{color:var(--gold-hi);font-weight:600}
 @media(max-width:860px){.contact{grid-template-columns:minmax(0,1fr)}}
 
+/* Modulo di richiesta */
+#richiesta{background:var(--bg);border-top:1px solid var(--line)}
+.req{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(32px,6vw,90px);align-items:start}
+.req h2{font-size:clamp(2.1rem,5vw,3.6rem);margin:1rem 0 1.2rem}
+.req .lead{color:var(--muted);font-size:1.05rem;margin:0;max-width:24rem}
+form.rf{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.1rem}
+.fld{display:flex;flex-direction:column;gap:.45rem;min-width:0}
+.fld.full{grid-column:1/-1}
+.fld label{font-size:.82rem;letter-spacing:.06em;color:var(--ink);font-weight:500}
+.fld label small{color:var(--muted);font-weight:400;letter-spacing:0}
+.fld input,.fld select,.fld textarea{width:100%;min-height:54px;padding:.85rem 1rem;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;color:var(--ink);font:400 16px/1.4 var(--sans)}
+.fld textarea{min-height:130px;resize:vertical}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:2px solid var(--gold-hi);outline-offset:1px;border-color:var(--gold)}
+.fld input[aria-invalid="true"],.fld textarea[aria-invalid="true"]{border-color:#e58a7a}
+.fld .err{color:#f0a999;font-size:.84rem;min-height:0}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.consent{display:flex;gap:.8rem;align-items:flex-start;font-size:.9rem;color:var(--muted);line-height:1.5}
+.consent input{flex:none;width:22px;height:22px;margin-top:.15rem;accent-color:var(--gold)}
+.rf .call{width:100%;font-size:1.05rem;min-height:58px}
+.rf .call:disabled{opacity:.6;cursor:wait}
+.rmsg{grid-column:1/-1;padding:1rem 1.1rem;border:1px solid var(--line);border-radius:10px;font-size:.98rem;line-height:1.5}
+.rmsg[hidden]{display:none}
+.rmsg.ok{border-color:#6fd08c;color:var(--ink)}
+.rmsg.bad{border-color:#e58a7a;color:var(--ink)}
+@media(max-width:860px){.req{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:560px){form.rf{grid-template-columns:minmax(0,1fr)}}
+
 footer.site{padding:36px var(--gutter) calc(36px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);text-align:center;font-size:.82rem;color:var(--muted);background:var(--bg)}
 footer.site b{font-family:var(--serif);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);font-size:1rem}
 
@@ -338,6 +365,56 @@ footer.site b{font-family:var(--serif);font-weight:600;letter-spacing:.14em;text
   </div>
 </section>
 
+<section class="block" id="richiesta">
+  <div class="wrap req">
+    <div>
+      <span class="eyebrow">Richiesta di informazioni</span>
+      <h2>Scrivici, ti ricontattiamo.</h2>
+      <p class="lead">Lascia i tuoi dati e dicci cosa vuoi far valutare. Ti rispondiamo appena possibile.</p>
+    </div>
+    <form class="rf" id="rf" novalidate>
+      <div class="fld">
+        <label for="f-nome">Nome e cognome</label>
+        <input id="f-nome" name="name" type="text" autocomplete="name" required>
+        <span class="err" id="e-nome" aria-live="polite"></span>
+      </div>
+      <div class="fld">
+        <label for="f-tel">Telefono</label>
+        <input id="f-tel" name="telefono" type="tel" inputmode="tel" autocomplete="tel" required>
+        <span class="err" id="e-tel" aria-live="polite"></span>
+      </div>
+      <div class="fld">
+        <label for="f-mail">Email <small>(facoltativa)</small></label>
+        <input id="f-mail" name="email" type="email" autocomplete="email">
+        <span class="err" id="e-mail" aria-live="polite"></span>
+      </div>
+      <div class="fld">
+        <label for="f-cosa">Cosa vuoi far valutare?</label>
+        <select id="f-cosa" name="oggetto">
+          <option>Gioielli</option>
+          <option>Orologi</option>
+          <option>Oro e argento</option>
+          <option>Altro</option>
+        </select>
+      </div>
+      <div class="fld full">
+        <label for="f-msg">Messaggio</label>
+        <textarea id="f-msg" name="message" required></textarea>
+        <span class="err" id="e-msg" aria-live="polite"></span>
+      </div>
+      <div class="hp" aria-hidden="true"><label for="f-web">Non compilare</label><input id="f-web" name="sito_web" type="text" tabindex="-1" autocomplete="off"></div>
+      <div class="fld full">
+        <label class="consent" for="f-ok"><input id="f-ok" name="consenso" type="checkbox" required><span>Acconsento al trattamento dei miei dati personali per essere ricontattato in merito a questa richiesta.</span></label>
+        <span class="err" id="e-ok" aria-live="polite"></span>
+      </div>
+      <div class="fld full">
+        <button class="call" id="f-send" type="submit">Invia la richiesta</button>
+      </div>
+      <div class="rmsg" id="rmsg" role="status" aria-live="polite" hidden></div>
+    </form>
+  </div>
+</section>
+
 <section class="block" id="contatti">
   <div class="wrap contact">
     <div>
@@ -365,6 +442,7 @@ footer.site b{font-family:var(--serif);font-weight:600;letter-spacing:.14em;text
     </div>
   </div>
 </section>
+
 </main>
 
 <footer class="site">
@@ -486,6 +564,45 @@ footer.site b{font-family:var(--serif);font-weight:600;letter-spacing:.14em;text
       tx.textContent=nxt?('Chiuso ora, riapre alle '+hm(nxt[0])):'Chiuso ora';
     }
   }catch(e){}
+})();
+</script>
+
+<script>
+(function(){
+  /* Invio tramite Web3Forms. La chiave è pubblica per natura e le richieste arrivano all'email registrata su web3forms.com. */
+  var FORM_ENDPOINT='https://api.web3forms.com/submit';
+  var FORM_ACCESS_KEY='6ec0cf56-5a0a-4050-b486-6a4386c016fb';
+  var PHONE='02 995 7447';
+  var f=document.getElementById('rf'); if(!f) return;
+  var msg=document.getElementById('rmsg'), btn=document.getElementById('f-send');
+  function $(id){return document.getElementById(id)}
+  function setErr(field,errId,text){ $(errId).textContent=text||''; if(field.type==='checkbox') return; field.setAttribute('aria-invalid',text?'true':'false'); }
+  function show(kind,text){ msg.hidden=false; msg.className='rmsg '+kind; msg.textContent=text; }
+  function validate(){
+    var ok=true, nome=$('f-nome'), tel=$('f-tel'), mail=$('f-mail'), t=$('f-msg'), c=$('f-ok');
+    setErr(nome,'e-nome', nome.value.trim().length<2 ? 'Scrivi il tuo nome.' : ''); if(nome.value.trim().length<2) ok=false;
+    var digits=tel.value.replace(/\D/g,'');
+    setErr(tel,'e-tel', digits.length<6 ? 'Scrivi un numero di telefono valido.' : ''); if(digits.length<6) ok=false;
+    var badMail=mail.value.trim()!=='' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail.value.trim());
+    setErr(mail,'e-mail', badMail ? "Controlla l'indirizzo email." : ''); if(badMail) ok=false;
+    setErr(t,'e-msg', t.value.trim().length<5 ? 'Scrivi un breve messaggio.' : ''); if(t.value.trim().length<5) ok=false;
+    setErr(c,'e-ok', c.checked ? '' : 'Serve il tuo consenso per inviare la richiesta.'); if(!c.checked) ok=false;
+    return ok;
+  }
+  f.addEventListener('submit',function(e){
+    e.preventDefault(); msg.hidden=true;
+    if($('f-web').value) return;
+    if(!validate()){ var first=f.querySelector('[aria-invalid="true"], .err:not(:empty)'); if(first&&first.scrollIntoView) first.scrollIntoView({block:'center'}); return; }
+    if(!FORM_ENDPOINT){ show('bad','Il modulo non è ancora attivo. Per ora chiamaci allo '+PHONE+'.'); return; }
+    var fd=new FormData(f); fd.delete('sito_web'); if(!String(fd.get('email')||'').trim()) fd.delete('email');
+    if(FORM_ACCESS_KEY){ fd.append('access_key',FORM_ACCESS_KEY); fd.append('subject','Richiesta di informazioni dal sito'); fd.append('from_name','Sito Compro Oro Garbagnate'); }
+    btn.disabled=true; btn.textContent='Invio in corso...';
+    fetch(FORM_ENDPOINT,{method:'POST',body:fd,headers:{'Accept':'application/json'}})
+      .then(function(r){ return r.json().catch(function(){return {}}).then(function(j){ if(!r.ok||j.success===false) throw new Error('send'); }); })
+      .then(function(){ f.reset(); show('ok','Richiesta inviata. Ti ricontattiamo appena possibile.'); })
+      .catch(function(){ show('bad','Non siamo riusciti a inviare la richiesta. Riprova o chiamaci allo '+PHONE+'.'); })
+      .then(function(){ btn.disabled=false; btn.textContent='Invia la richiesta'; });
+  });
 })();
 </script>
 </body>
