@@ -41,13 +41,6 @@ h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;text-wrap:balance;lin
 .call svg{width:1.15em;height:1.15em;fill:currentColor;flex:none}
 .call.big{font-size:1.15rem;padding:1.1rem 2.2rem;min-height:60px;box-shadow:0 0 0 1px rgba(255,255,255,.12),0 12px 40px rgba(0,0,0,.6)}
 
-/* Loader */
-#loader{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4rem;padding:var(--gutter);transition:opacity .8s ease,visibility .8s}
-#loader.done{opacity:0;visibility:hidden}
-#loader .name{font-family:var(--serif);font-size:clamp(1.8rem,6vw,3rem);letter-spacing:.04em;text-align:center}
-#loader .bar{width:min(260px,70vw);height:1px;background:var(--line);overflow:hidden}
-#loader .bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .2s}
-
 /* Header */
 header.top{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:calc(env(safe-area-inset-top,0px) + 12px) var(--gutter) 12px;transition:background .4s}
 header.top.solid{background:rgba(7,6,5,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
@@ -201,10 +194,6 @@ footer.site b{font-family:var(--serif);font-weight:600;letter-spacing:.14em;text
   <symbol id="ph" viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2a1 1 0 011-.25c1.1.37 2.3.57 3.6.57a1 1 0 011 1V20a1 1 0 01-1 1C10.6 21 3 13.4 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1z"/></symbol>
 </svg>
 
-<div id="loader" role="status" aria-live="polite">
-  <div class="name">Compro Oro<br>Garbagnate Milanese</div>
-  <div class="bar"><i id="lbar"></i></div>
-</div>
 
 <header class="top" id="top">
   <a class="brand" href="#hero"><b>Compro Oro</b><span>Garbagnate Milanese</span></a>
@@ -390,7 +379,6 @@ footer.site b{font-family:var(--serif);font-weight:600;letter-spacing:.14em;text
   var N=FRAMES.length, frames=new Array(N), loaded=0, ready=false;
   var canvas=document.getElementById('film'), ctx=canvas.getContext('2d');
   var stage=document.getElementById('stage');
-  var loader=document.getElementById('loader'), lbar=document.getElementById('lbar');
   var beats=[].slice.call(document.querySelectorAll('.beat'));
   var topEl=document.getElementById('top'), pbar=document.getElementById('pbar'), go=document.getElementById('go');
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -398,8 +386,8 @@ footer.site b{font-family:var(--serif);font-weight:600;letter-spacing:.14em;text
   var target=0, current=0, lastPos=-1;
 
   function pad(n){return ('00'+n).slice(-3)}
-  function hideLoader(){ if(ready) return; ready=true; loader.classList.add('done'); draw(true); }
-  function onLoad(){ loaded++; lbar.style.width=Math.min(100,(loaded/30)*100)+'%'; if(loaded===1) draw(true); if(loaded>=30) hideLoader(); }
+  function hideLoader(){ if(ready) return; ready=true; draw(true); }
+  function onLoad(){ loaded++; if(loaded===1) draw(true); if(loaded>=30) hideLoader(); }
   for(var i=0;i<N;i++){
     var im=new Image();
     im.onload=onLoad; im.onerror=onLoad;
